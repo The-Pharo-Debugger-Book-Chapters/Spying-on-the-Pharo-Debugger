@@ -31,7 +31,7 @@ Data files direct.
 
 The first step are the same but in addition you need to configure the information about the server on which you want to log your data. 
 
-#TODO (when the code will be ready)
+TODO (when the code will be ready)
 
 ### Stop instrumentation 
 
