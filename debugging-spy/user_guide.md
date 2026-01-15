@@ -126,7 +126,7 @@ To cite the use of this tool, please use: https://hal.science/hal-04858378v1
 
 - Debugger commands (all): 'Step into', 'Step over', 'Through', ...
 
-- Exceptions raised and not catched.
+- Exceptions raised and not caught.
 
 - Halts (all): 'Halt', 'Halt once', 'Halt if', ...
 
