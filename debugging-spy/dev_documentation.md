@@ -2,7 +2,7 @@
 
 ## Overview
 
-Debugging Spy is a complex tool with many objects interacting together. Let's classify Debugging Spy's components.
+Debugging Spy is a tool with many objects interacting together. Let's classify Debugging Spy's components.
 
 ### Instrumentation
 
@@ -17,6 +17,10 @@ Debugging Spy is a complex tool with many objects interacting together. Let's cl
 Many recording classes exist in Debugging Spy. Indeed, wanted data are different from an action to another.
 So each recording class implement what data do we want to record and how they should be recorded.
 
+Super class + main information 
+
+Example with a window 
+
 ### Commands
 
 For Debugger commands instrumentation, Debugging Spy use its own command system. 
@@ -27,5 +31,7 @@ It is very similar to recording classes, the difference is in the way of instrum
 - `DSRecordRegistry` stores records.
 
 - `DSRecordHistory` builds an history object more readable. It shorts records and infers information from them.
+
+TODO: Give the available API for the `DSRecordHistory` => allowing to sort records according to some parameters 
 
 

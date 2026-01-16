@@ -24,7 +24,6 @@ DSSpyInstrumenter instrumentSystem
 
 After that, the system starts logging.
 Logs are serialized in the image working directory, in the *ds-spy* folder. You can access it with 'System' -> 'File Browser' then in the 'Bookmarks' section click on 'Working directory'.
-Data files direct.
 
 
 ### Log data to a remote server
@@ -131,6 +130,8 @@ To cite the use of this tool, please use: https://hal.science/hal-04858378v1
 - Halts (all): 'Halt', 'Halt once', 'Halt if', ...
 
 - Mouse events: 'Mouse enter' and 'Mouse leave'. When the mouse is entering or leaving a window.
+
+The table seems to not appear in the PDF file => TODO : find how to build a table for the pdf (and update this table with new records)
 
 
 | **Type of traces**         | **User activity/block event or action** | **Debugging action** | **Navigation/inspection action** | **Debugging event** | **Code edition action** |

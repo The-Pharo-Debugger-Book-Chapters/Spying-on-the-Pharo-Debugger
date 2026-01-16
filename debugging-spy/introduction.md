@@ -1,8 +1,6 @@
 ## Spying user behavior
 
-Debugging Spy provides a tool which is spying the Pharo IDE and so allows to get information about user's behavior.
-
-It can be used for several purpose
+Debugging Spy provides a tool which is spying the Pharo IDE and so allows to get information about user's interaction with the Pharo IDE.
 
 If you want to use the tool, please check the [user guide section](./user_guide.md).
 
