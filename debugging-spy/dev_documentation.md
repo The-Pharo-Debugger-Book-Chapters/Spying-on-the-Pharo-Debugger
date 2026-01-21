@@ -14,13 +14,19 @@ Methods are organized in different categories:
 
 - `instrumentSomething` methods instruments a specific action, such as "Debug it", by using Metalinks.
 
+![instrumentDebugIt](./graphics/instrument_debugIt_screenshot.png)
+
 - `logSomething` groups some `instrumentSomething` methods by categories, for example clipboard actions which include "Paste" and "Copy" actions.
+
+![logClipboardActions](./graphics/log_clipboard_screenshot.png)
 
 - `listenToSomething` listens to announcements linked to a group of events, for example `listenToWindowEvents` is listening for "window opened", "window closed" and "window activated" events.
 
-TODO: add pictures with an example for each bullet point.
+![listenToWindowsEvents](./graphics/listen_window_screenshot.png)
 
 Note that the `instrumentSystem` method calls every instrumentation methods for now, but one future goal is to allow users to choose what should be recorded or not. 
+
+![instrumentSystem](./graphics/instrument_system_screenshot.png)
 
 #### `DSSpy` 
 
@@ -45,7 +51,18 @@ It is very similar to recording classes, the difference is in the way of instrum
 
 Likewise, we replace Sindarin's commands by commands from Debugging Spy which allow us to record every user's actions with Sindarin.
 
-TODO: put pictures of code?
+TODO: put pictures of code? Not good for clarity (too many methods called)
+
+#### Extensions
+
+Some instrumentations are done by adding extensions to existing code.
+For example, `Halt` class is instrumented with:
+
+![Halt instrumentation example](./graphics/halt_instrumentation_example.png)
+
+As you can see, we used `DSSpy class>>#recordingSession` in order to unsure that we are in a recording session before recording.
+
+This way of recording actions avoids issues due to MetaLink or Announcements and seems to be the best way of recording when it is possible to use it.
 
 ### Recording
 
@@ -86,3 +103,16 @@ It builds an history object more readable from a STON file. It shorts records an
 	We consider that, if the user did not do anything (basically typing or moving the mouse) for more than 5 min, the she was away from the task.
 
 
+## Testing
+
+Most of the code is tested. To ensure that, we defined a testing strategy divided in two main categories: test scenarios and classical tests. 
+
+### Classical tests
+
+As in all projects, you will find unit tests and functional tests. 
+
+### Testing scenarios
+
+Testing scenarios were defined to ensure that we correctly record scenarios which often happen during experiments. 
+
+Theses scenarios are describing a succession of actions and the expected results. Our goal is then to match the result. 
