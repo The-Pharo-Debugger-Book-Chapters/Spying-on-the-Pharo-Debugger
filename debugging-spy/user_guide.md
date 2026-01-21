@@ -131,13 +131,14 @@ To cite the use of this tool, please use: https://hal.science/hal-04858378v1
 
 - Mouse events: 'Mouse enter' and 'Mouse leave'. When the mouse is entering or leaving a window.
 
-The table seems to not appear in the PDF file => TODO : find how to build a table for the pdf (and update this table with new records)
+The table seems to not appear in the PDF file => TODO : find how to build a table for the pdf
 
+## Recorded events
 
 | **Type of traces**         | **User activity/block event or action** | **Debugging action** | **Navigation/inspection action** | **Debugging event** | **Code edition action** |
 |-----------------------------|------------------------------------------|-----------------------|-----------------------------------|---------------------|--------------------------|
-| Breakpoint                 |                                          | x                     |                                   |                     |                          |
-| Variable breakpoint        |                                          | x                     |                                   |                     |                          |
+| DebugPoint                 |                                          | x                     |                                   |                     |                          |
+| Watch DebugPoint           |                                          | x                     |                                   |                     |                          |
 | Halt change                |                                          | x                     |                                   |                     |                          |
 | Halt hit                   |                                          |                       |                                   | x                   |                          |
 | Clipboard copy             |                                          |                       |                                   |                     | x                        |
@@ -146,33 +147,17 @@ The table seems to not appear in the PDF file => TODO : find how to build a tabl
 | Do it                      | ?                                        |                       |                                   |                     |                          |
 | Do it and go               | ?                                        |                       |                                   |                     |                          |
 | Print it                   |                                          |                       | x                                 |                     |                          |
-| Browse context             |                                          |                       | x                                 |                     |                          |
-| Debugger action            |                                          | x                     |                                   |                     |                          |
-| Debugger opening           | x                                        |                       |                                   |                     |                          |
-| Full browse                |                                          |                       | x                                 |                     |                          |
-| Inspect attribute          | x                                        |                       |                                   |                     |                          |
-| Expand attribute           |                                          |                       | x                                 |                     |                          |
-| Navigate attribute         |                                          |                       | x                                 |                     |                          |
-| Inspect method             | x                                        |                       |                                   |                     |                          |
-| Inspect method source      | x                                        |                       |                                   |                     |                          |
-| Inspect object             | x                                        |                       |                                   |                     |                          |
-| Select inspector page      |                                          |                       | x                                 |                     |                          |
+| Browse                     |                                          |                       | x                                 |                     |                          |
+| Implementors               | x                                        |                       |                                   |                     |                          |
+| Senders                    | x                                        |                       |                                   |                     |                          |
+| Inspect                    | x                                        |                       |                                   |                     |                          |
 | Logging error              |                                          |                       |                                   | x                   |                          |
 | Method added               |                                          |                       |                                   |                     | x                        |
 | Method modified            |                                          |                       |                                   |                     | x                        |
 | Method removed             |                                          |                       |                                   |                     | x                        |
 | Source code change         |                                          |                       |                                   |                     | x                        |
-| Mouse down table           |                                          |                       | x                                 |                     |                          |
-| Mouse enter table          |                                          |                       | x                                 |                     |                          |
-| Mouse enter text editor    |                                          |                       | x                                 |                     |                          |
 | Mouse enter window         | x                                        |                       |                                   |                     |                          |
 | Mouse leave window         | x                                        |                       |                                   |                     |                          |
-| Playground opened          | x                                        |                       |                                   |                     |                          |
-| Playground read            |                                          |                       | x                                 |                     |                          |
-| Playground write           |                                          |                       |                                   |                     | x                        |
-| Query browse               |                                          |                       | x                                 |                     |                          |
-| Start scrolling            |                                          |                       | x                                 |                     |                          |
-| Stop scrolling             |                                          |                       | x                                 |                     |                          |
 | Step                       |                                          | x                     |                                   |                     |                          |
 | Window activated           | x                                        |                       |                                   |                     |                          |
 | Window opened              | x                                        |                       |                                   |                     |                          |
@@ -184,11 +169,6 @@ The table seems to not appear in the PDF file => TODO : find how to build a tabl
 | Step into                  |                                          | x                     |                                   |                     |                          |
 | Step over                  |                                          | x                     |                                   |                     |                          |
 | Step through               |                                          | x                     |                                   |                     |                          |
-
-
-
-
-
 
 
 ### Build visualizations
