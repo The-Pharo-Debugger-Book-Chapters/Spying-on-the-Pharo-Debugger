@@ -1,5 +1,60 @@
 # Documentation for developers
 
+## Commands
+
+### Start instrumentation
+
+In order to start the instrumentation of your Pharo IDE, you must checkout the branch corresponding to your Pharo's version and then load the baseline.
+
+When it's done, run the following line to instrument the system:
+```Smalltalk
+DSSpyInstrumenter instrumentSystem
+```
+
+After that, the system starts logging.
+Logs are serialized in the image working directory, in the *ds-spy* folder. You can access it with 'System' -> 'File Browser' then in the 'Bookmarks' section click on 'Working directory'.
+
+### Stop instrumentation 
+
+When you want to stop the instrumentation, you can run the following code:
+
+```Smalltalk
+DSSpyInstrumenter stopInstrumentation
+```
+
+The system will stops logging and all instrumentation will be removed. 
+If you want to re-instrument your system, you can go back to the point before.
+
+### Log data to a remote server
+
+The first step are the same but in addition you need to configure the information about the server on which you want to log your data. 
+
+TODO (when the code will be ready)
+
+### Materialize raw logs
+
+First, you need to get the reference to your log file: it should be in *ds-spy* from your working directory. Then execute the following code:
+
+```Smalltalk
+raw := DSSpy materialize: 'ds-spy/file_with_records' asFileReference
+```
+where `file_with_records` is your log file.
+
+Upon inspection, you obtain a raw list of event, chronologically sorted:
+<img width="695" alt="Capture d’écran 2025-03-09 à 22 50 33" src="https://github.com/user-attachments/assets/5c52dfeb-4f9c-4c61-bbb9-1112d4323157" />
+
+### Build event history
+
+The history is obtained by executing:
+
+```Smalltalk
+history := DSRecordHistory on: raw
+```
+
+The history object exposes an API to explore the logged execution: (TODO: the API should be documented)
+
+![Capture d’écran 2025-03-10 à 14 37 33](https://github.com/user-attachments/assets/95592964-d3c8-4bae-92d0-5ee2aa82f6b1)
+
 ## Overview
 
 Debugging Spy is a tool with many objects interacting together. Let's classify Debugging Spy's components.
