@@ -1,5 +1,7 @@
 # User Guide
 
+
+
 ## Installation
 
 You can import Debugging Spy in your pharo image by running this code in a Playground:
@@ -10,61 +12,59 @@ Metacello new
     repository: 'github://StevenCostiou/DebuggingSpy:P12';
     load.
 ```
+## Behavior
 
-## Instrumentation of the system
+Debugging Spy is a tool that instruments its system to record actions made by the user. The events recorded are classified in a registry, which will be logged in *STON* format on the user's computer.
 
-### Log data in your computer
+The system uses a STON logger that is defined in the `DSSTONFileLogger` class. This class also defines the method `#defaultLoggingDirectoryName` that returns the name of the directory where the record files will be logged when the system is instrumented (which is *ds-spy* by default).
 
-In order to start the instrumentation of your Pharo IDE, you must checkout the branch corresponding to your Pharo's version and then load the baseline.
+Debugging Spy also provides the possibility to process records into a *history*, with an API to explore what happened during logging.
 
-When it's done, run the following line to instrument the system:
-```Smalltalk
-DSSpyInstrumenter instrumentSystem
+## User interface
+
+### Open the browser
+
+Debugging Spy comes with a dedicated UI that is defined in the `DSRecordBrowserPresenter` class. That browser could be opened or closed either by using the added button on the world menu, or by running the following line in a Playground: 
+
+```smalltalk
+DSRecordBrowserPresenter toggleBrowser
 ```
 
-After that, the system starts logging.
-Logs are serialized in the image working directory, in the *ds-spy* folder. You can access it with 'System' -> 'File Browser' then in the 'Bookmarks' section click on 'Working directory'.
+![Debugging Spy user interface](./graphics/browser_interface.png)
+
+The following actions could be done using the interface toolbar buttons : 
+- add a record file (or a folder's files) to the browser
+- start a new recording session
+- stop the current recording session
+- filter the displayed records
+
+### Adding records to the browser
+
+New record files can be added in the browser by clicking on the **Add** button in the toolbar, then selecting some record files that will be added and displayed on the right part of the screen.
+
+![Displayed records in user interface](./graphics/displaying_records.png)
+
+### Coloring the records
+
+As on the previous screenshot, the records displayed in the user interface's table are colored. This color is determined by the window where the event did happen, and every association color / type of window could be seen in the `DSRecordBrowserPresenter >> #getWindowColorFrom` method. This method uses previous defined methods in the `DSWindowRecord` class to determine which color should be used to display the record.
+
+### Starting and stopping the instrumentation
+
+The Debugging Spy instrumentation could be started and stopped by clicking on the associated buttons in the browser's toolbar.
+
+![Start and stop buttons](./graphics/start_stop_buttons.png)
+
+When the instrumentation is started by clicking on the **Start** button, a timer window is instanciated in the bottom-right corner of the screen in order to display the elapsed time since the start of the experiment, the current time and a button that permits to stop the recording session and the instrumentation.
+
+![Timer window](./graphics/timer_window.png)
 
 
-### Log data to a remote server
+### Visualizing a file's records and history
 
-The first step are the same but in addition you need to configure the information about the server on which you want to log your data. 
+After selecting a file that has been added to the browser, the user could view the corresponding data by doing : 
+- `CMD + R` for the raw records.
+- `CMD + H` for the associated history.
 
-TODO (when the code will be ready)
-
-### Stop instrumentation 
-
-When you want to stop the instrumentation, you can run the following code:
-
-```Smalltalk
-DSSpyInstrumenter stopInstrumentation
-```
-
-The system will stops logging and all instrumentation will be removed. 
-If you want to re-instrument your system, you can go back to the point before.
-
-## Read logged data
-
-### Materialize raw logs
-
-First, you need to get the reference to your log file: it should be in *ds-spy* from your working directory. Then execute the following code:
-
-```Smalltalk
-raw := DSSpy materialize: 'ds-spy/file_with_records' asFileReference
-```
-where `file_with_records` is your log file.
-
-Upon inspection, you obtain a raw list of event, chronologically sorted:
-<img width="695" alt="Capture d’écran 2025-03-09 à 22 50 33" src="https://github.com/user-attachments/assets/5c52dfeb-4f9c-4c61-bbb9-1112d4323157" />
-
-### Build event history
-
-DebuggingSpy provides a history object with an API to explore what happened during logging.
-The history is obtained by executing:
-
-```Smalltalk
-history := DSRecordHistory on: raw
-```
 Upon inspection, the history looks like this:
 
 ![Capture d’écran 2025-03-10 à 14 08 43](https://github.com/user-attachments/assets/7b4464a5-7f5e-4b67-a6e5-3079cad98fcf)
@@ -87,9 +87,11 @@ Some windows may have unusual names, such as:
 
 - The activity records, also referred to as *jumps* or *basic blocks* depending on the context, now respond to *windowId*. This information indicates that the activity was performed in a window of the same id. This is a lazy accessor.
 
-The history object exposes an API to explore the logged execution: (TODO: the API should be documented)
+### Filtering displayed records
 
-![Capture d’écran 2025-03-10 à 14 37 33](https://github.com/user-attachments/assets/95592964-d3c8-4bae-92d0-5ee2aa82f6b1)
+The records are displayed using their class name, which could also be used to filter the type of records we would like to see (or not). The filter window could be opened by clicking on the **Filter** toolbar's button. Then, any class that is selected to be filtered (has been moved to the filter's right side) would **not** be displayed in the browser.
+
+![Filter window](./graphics/filtering_records.png)
 
 
 ## Quotation
@@ -130,8 +132,6 @@ To cite the use of this tool, please use: https://hal.science/hal-04858378v1
 - Halts (all): 'Halt', 'Halt once', 'Halt if', ...
 
 - Mouse events: 'Mouse enter' and 'Mouse leave'. When the mouse is entering or leaving a window.
-
-The table seems to not appear in the PDF file => TODO : find how to build a table for the pdf
 
 ## Recorded events
 
