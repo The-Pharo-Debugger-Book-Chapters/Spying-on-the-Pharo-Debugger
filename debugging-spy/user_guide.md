@@ -67,7 +67,7 @@ After selecting a file that has been added to the browser, the user could view t
 
 Upon inspection, the history looks like this:
 
-![Capture d’écran 2025-03-10 à 14 08 43](https://github.com/user-attachments/assets/7b4464a5-7f5e-4b67-a6e5-3079cad98fcf)
+![History inspectio,](./graphics/history_inspection.png)
 
 The history object exposes data organized in different perspectives:
 
