@@ -52,8 +52,6 @@ As on the previous screenshot, the records displayed in the user interface's tab
 
 The Debugging Spy instrumentation could be started and stopped by clicking on the associated buttons in the browser's toolbar.
 
-![Start and stop buttons](./graphics/start_stop_buttons.png)
-
 When the instrumentation is started by clicking on the **Start** button, a timer window is instanciated in the bottom-right corner of the screen in order to display the elapsed time since the start of the experiment, the current time and a button that permits to stop the recording session and the instrumentation.
 
 ![Timer window](./graphics/timer_window.png)
@@ -67,7 +65,7 @@ After selecting a file that has been added to the browser, the user could view t
 
 Upon inspection, the history looks like this:
 
-![History inspectio,](./graphics/history_inspection.png)
+![History inspection](./graphics/history_inspection.png)
 
 The history object exposes data organized in different perspectives:
 
@@ -92,6 +90,16 @@ Some windows may have unusual names, such as:
 The records are displayed using their class name, which could also be used to filter the type of records we would like to see (or not). The filter window could be opened by clicking on the **Filter** toolbar's button. Then, any class that is selected to be filtered (has been moved to the filter's right side) would **not** be displayed in the browser.
 
 ![Filter window](./graphics/filtering_records.png)
+
+### Record anonymization
+
+The Debugging Spy API permits to anonymize the records since their data might be sensible.
+To make a record anonymous, use the **anonymize** method:
+```Smalltalk
+aRecord anonymize
+``` 
+
+This method will return a **deepCopy** of the specified record that will be filtered based on a filter that is defined in the record's class in the **anonymousFilter** method. This filter defines the slots that are going to be kept in the copy, every slot that is not defined in that filter will be set at nil.
 
 
 ## Quotation

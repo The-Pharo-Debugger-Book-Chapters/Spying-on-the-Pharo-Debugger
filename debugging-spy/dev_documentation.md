@@ -157,6 +157,33 @@ It builds an history object more readable from a STON file. It shorts records an
 	- time gaps are calculated as the sum of time differences between two following events with a time delta > 5 min.
 	We consider that, if the user did not do anything (basically typing or moving the mouse) for more than 5 min, the she was away from the task.
 
+## Record data filtering
+
+Debugging Spy API defines a class `DSRecordDataFilter` which permits to instanciate filters that will be used to remove and transform some information in the records. A filter will define operations that will be applied on a record's slots.
+
+The filters could keep the value of a slot when applied, which needs to be specified using the **with** method. 
+
+The filters also permit to transform their data in order to keep a certain slot's value but to modify it. In that case, it uses the **transform:with:** method that takes in argument a bloc that will be used to modify the data.
+
+The API also provides a **hash:** method that is a transformation that will set a slot's value as its identity hash. That method is used in particular in the Debugging Spy Anonymizer that permits to make the data fully anonymous using this filters.
+
+In fact, every slot that is not used for any operation will be set at nil after applying the filter.
+
+After defining a filter, it might be used on a record with the **applyOn:** method that will return a **deepCopy** of the record that has been filtered.
+
+Here is some example of record data filtering: 
+```Smalltalk
+| filter filteredRecord |
+
+filter := DSRecordDataFilter new
+	transform: #uuid with: [ :uuid | uuid asString ];
+	hash: #dateTime;
+	with: #windowId;
+	yourself.
+
+filteredRecord := includeFilter applyOn: aRecord. 
+```
+
 
 ## Testing
 
