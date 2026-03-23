@@ -4,27 +4,28 @@
 
 ## Installation
 
-You can import Debugging Spy in your pharo image by running this code in a Playground:
+You can import Debugging Spy in a Pharo image by running this code in a Playground:
 
 ```Smalltalk
 Metacello new
     baseline: 'DebuggingSpy';
-    repository: 'github://StevenCostiou/DebuggingSpy:P12';
+    repository: 'github://Pharo-XP-Tools/DebuggingSpy:P12';
     load.
 ```
+
+Caution: the example above loads the P12 version and you should adapt the code according to the version desired. 
+
 ## Behavior
 
-Debugging Spy is a tool that instruments its system to record actions made by the user. The events recorded are classified in a registry, which will be logged in *STON* format on the user's computer.
+Debugging Spy is a tool which instruments a Pharo image by recording user's actions. Events recorded are stored in a *.ston* file locally - on the user's computer - and can be found in the ds-spy directory of the image.
 
-The system uses a STON logger that is defined in the `DSSTONFileLogger` class. This class also defines the method `#defaultLoggingDirectoryName` that returns the name of the directory where the record files will be logged when the system is instrumented (which is *ds-spy* by default).
-
-Debugging Spy also provides the possibility to process records into a *history*, with an API to explore what happened during logging.
+Debugging Spy also provides the possibility to process records into an object called *history*. This object is providing detailed data and has an API to get specific insights.
 
 ## User interface
 
 ### Open the browser
 
-Debugging Spy comes with a dedicated UI that is defined in the `DSRecordBrowserPresenter` class. That browser could be opened or closed either by using the added button on the world menu, or by running the following line in a Playground: 
+Debugging Spy comes with a dedicated UI: the Debugging Record Browser. This UI can be opened or closed either by using the added button on the world menu (at the top right of the IDE), or by running the following code in a Playground: 
 
 ```smalltalk
 DSRecordBrowserPresenter toggleBrowser
@@ -32,15 +33,17 @@ DSRecordBrowserPresenter toggleBrowser
 
 ![Debugging Spy user interface](./graphics/browser_interface.png)
 
-The following actions could be done using the interface toolbar buttons : 
-- add a record file (or a folder's files) to the browser
+The following actions can be done by using the interface: 
+- add a recording file (or a folder) in the browser
 - start a new recording session
 - stop the current recording session
-- filter the displayed records
+- filter displayed records
 
 ### Adding records to the browser
 
-New record files can be added in the browser by clicking on the **Add** button in the toolbar, then selecting some record files that will be added and displayed on the right part of the screen.
+New recording files can be added in the browser by clicking on the **Add** button in the toolbar. A dialog will be opened, allowing to select some record files. 
+
+The selected files will be added in the list and displayed on the right part of the screen.
 
 ![Displayed records in user interface](./graphics/displaying_records.png)
 
@@ -50,16 +53,16 @@ As on the previous screenshot, the records displayed in the user interface's tab
 
 ### Starting and stopping the instrumentation
 
-The Debugging Spy instrumentation could be started and stopped by clicking on the associated buttons in the browser's toolbar.
+The Debugging Spy instrumentation can be started and stopped by clicking on the associated buttons in the browser's toolbar.
 
-When the instrumentation is started by clicking on the **Start** button, a timer window is instanciated in the bottom-right corner of the screen in order to display the elapsed time since the start of the experiment, the current time and a button that permits to stop the recording session and the instrumentation.
+When the instrumentation is started by clicking on the **Start** button, a timer window is instantiated in the bottom-right corner of the screen in order to display the elapsed time since the start of the experiment, the current time and a button which allows to stop the recording session and the instrumentation.
 
 ![Timer window](./graphics/timer_window.png)
 
 
 ### Visualizing a file's records and history
 
-After selecting a file that has been added to the browser, the user could view the corresponding data by doing : 
+After selecting a file in the list, you can visualize the corresponding data by doing : 
 - `CMD + R` for the raw records.
 - `CMD + H` for the associated history.
 
@@ -69,11 +72,15 @@ Upon inspection, the history looks like this:
 
 The history object exposes data organized in different perspectives:
 
-- **records** → the sequential list of logged events.  
+- **records** → list of raw records.  
 
-- **windows** → the complete list of open windows. Each window contains its own list of events, a list of events grouped by active periods (*activePeriods*, i.e., each period marks an interruption in the window's activity), and the source event (*sourceEvent*) that triggered the window's opening. *(Note: this information is difficult to retrieve automatically and requires manual interpretation to be useful.)*  
+- **windows** → list of open windows. 
 
-- **windowJumps** → the sequential list of activity per window. This allows us to track activity within each window until a switch occurs, showing which window the user jumps to, what they do there, and when they return. Each window jump includes a start event (*startEvent*), an end event (*stopEvent*), a collection of events (*events*) recorded from entry to exit of the window, and the window linked to the activity (*window*, see the previous point). Each window jump corresponds to an activity period from the previous point.  
+Each window contains its own list of events, a list of events grouped by active periods (i.e. each period marks an interruption in the window's activity) and a toolInfo object (describing the tool associated to the window).
+
+- **windowJumps** → the sequential list of activity per window. 
+
+This allows us to track activity within each window until a switch occurs, showing which window the user jumps to, what they do there, and when they return. Each window jump includes a start event (*startEvent*), an end event (*stopEvent*), a collection of events (*events*) recorded from entry to exit of the window, and the window linked to the activity (*window*, see the previous point). Each window jump corresponds to an activity period from the previous point.  
 
 Some windows may have unusual names, such as:  
 
