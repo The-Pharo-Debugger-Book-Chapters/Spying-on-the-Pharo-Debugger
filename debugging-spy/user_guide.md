@@ -1,6 +1,6 @@
 # User Guide
 
-
+This chapter provides an user guide for anyone who want to use Debugging Spy.
 
 ## Installation
 
@@ -15,21 +15,11 @@ Metacello new
 
 Caution: the example above loads the P12 version and you should adapt the code according to the version desired. 
 
-## Behavior
-
-Debugging Spy is a tool which instruments a Pharo image by recording user's actions. Events recorded are stored in a *.ston* file locally - on the user's computer - and can be found in the ds-spy directory of the image.
-
-Debugging Spy also provides the possibility to process records into an object called *history*. This object is providing detailed data and has an API to get specific insights.
-
 ## User interface
 
 ### Open the browser
 
-Debugging Spy comes with a dedicated UI: the Debugging Record Browser. This UI can be opened or closed either by using the added button on the world menu (at the top right of the IDE), or by running the following code in a Playground: 
-
-```smalltalk
-DSRecordBrowserPresenter toggleBrowser
-```
+Debugging Spy comes with a dedicated UI: the Debugging Record Browser. This UI can be opened by using the button on the world menu (at the top right of the IDE).
 
 ![Debugging Spy user interface](./graphics/browser_interface.png)
 
@@ -39,25 +29,25 @@ The following actions can be done by using the interface:
 - stop the current recording session
 - filter displayed records
 
-### Adding records to the browser
+### Starting and stopping the instrumentation
 
-New recording files can be added in the browser by clicking on the **Add** button in the toolbar. A dialog will be opened, allowing to select some record files. 
+The instrumentation can be started and stopped by clicking on the associated buttons in the browser's toolbar.
+
+When the instrumentation is started, a timer window is instantiated in the bottom-right corner of the screen. This timer window displays the elapsed time since the start of the experiment, the current time and provides a button to stop the instrumentation.
+
+![Timer window](./graphics/timer_window.png)
+
+### Adding files into the browser
+
+Events recorded are stored in a *.ston* file locally - on the user's computer - and can be found in the ds-spy directory of the image.
+
+To add new recording files in the browser, you have to click on the **Add** button in the toolbar. A dialog will be opened, allowing to select some record files. 
 
 The selected files will be added in the list and displayed on the right part of the screen.
 
 ![Displayed records in user interface](./graphics/displaying_records.png)
 
-### Coloring the records
-
-As on the previous screenshot, the records displayed in the user interface's table are colored. This color is determined by the window where the event did happen, and every association color / type of window could be seen in the `DSRecordBrowserPresenter >> #getWindowColorFrom` method. This method uses previous defined methods in the `DSWindowRecord` class to determine which color should be used to display the record.
-
-### Starting and stopping the instrumentation
-
-The Debugging Spy instrumentation can be started and stopped by clicking on the associated buttons in the browser's toolbar.
-
-When the instrumentation is started by clicking on the **Start** button, a timer window is instantiated in the bottom-right corner of the screen in order to display the elapsed time since the start of the experiment, the current time and a button which allows to stop the recording session and the instrumentation.
-
-![Timer window](./graphics/timer_window.png)
+As seeing on the previous screenshot, the records displayed in the user interface's table are colored. Color indicates the window where the event happened. Every association color / type of window could be seen in the `DSRecordBrowserPresenter >> #getWindowColorFrom` method.
 
 
 ### Visualizing a file's records and history
@@ -65,6 +55,28 @@ When the instrumentation is started by clicking on the **Start** button, a timer
 After selecting a file in the list, you can visualize the corresponding data by doing : 
 - `CMD + R` for the raw records.
 - `CMD + H` for the associated history.
+
+More information on the history object in the 'Advanced feature' section. 
+
+### Filtering displayed records
+
+The records are displayed using their class name, which could also be used to filter the type of records we would like to see (or not). The filter window could be opened by clicking on the **Filter** toolbar's button. Then, any class that is selected to be filtered (has been moved to the filter's right side) would **not** be displayed in the browser.
+
+![Filter window](./graphics/filtering_records.png)
+
+### Record anonymization
+
+The Debugging Spy API permits to anonymize the records since their data might be sensible.
+To make a record anonymous, use the **anonymize** method:
+```Smalltalk
+aRecord anonymize
+``` 
+
+This method will return a **deepCopy** of the specified record that will be filtered based on a filter that is defined in the record's class in the **anonymousFilter** method. This filter defines the slots that are going to be kept in the copy, every slot that is not defined in that filter will be set at nil.
+
+## Advanced features
+
+### History 
 
 Upon inspection, the history looks like this:
 
@@ -92,47 +104,9 @@ Some windows may have unusual names, such as:
 
 - The activity records, also referred to as *jumps* or *basic blocks* depending on the context, now respond to *windowId*. This information indicates that the activity was performed in a window of the same id. This is a lazy accessor.
 
-### Filtering displayed records
+### List of recorded events
 
-The records are displayed using their class name, which could also be used to filter the type of records we would like to see (or not). The filter window could be opened by clicking on the **Filter** toolbar's button. Then, any class that is selected to be filtered (has been moved to the filter's right side) would **not** be displayed in the browser.
-
-![Filter window](./graphics/filtering_records.png)
-
-### Record anonymization
-
-The Debugging Spy API permits to anonymize the records since their data might be sensible.
-To make a record anonymous, use the **anonymize** method:
-```Smalltalk
-aRecord anonymize
-``` 
-
-This method will return a **deepCopy** of the specified record that will be filtered based on a filter that is defined in the record's class in the **anonymousFilter** method. This filter defines the slots that are going to be kept in the copy, every slot that is not defined in that filter will be set at nil.
-
-
-## Quotation
-
-To cite the use of this tool, please use: https://hal.science/hal-04858378v1
-
-```bib
-@softwareversion{costiou:hal-04858378v1,
-  TITLE = {{Debugging Spy}},
-  AUTHOR = {Costiou, Steven and Van{\`e}gue, Adrien},
-  URL = {https://inria.hal.science/hal-04858378},
-  NOTE = {},
-  INSTITUTION = {{Centre Inria de l'Universit{\'e} de Lille}},
-  YEAR = {2024},
-  MONTH = Dec,
-  SWHID = {swh:1:dir:0f63d67301c0ad3174d17c89a13b52e595837877;origin=https://github.com/Pharo-XP-Tools/DebuggingSpy;visit=swh:1:snp:ae7703ee9ee6f77eb10697b7d9fdf90678a768a0;anchor=swh:1:rev:fbec9a14cbdaa478f498196c0f993062441ef3ae},
-  VERSION = {1.0},
-  REPOSITORY = {https://github.com/Pharo-XP-Tools/DebuggingSpy},
-  LICENSE = {MIT License},
-  KEYWORDS = {Debug ; Software instrumentation},
-  HAL_ID = {hal-04858378},
-  HAL_VERSION = {v1},
-}
-```
-
-## List of recorded events
+Here is the list of events that Debugging Spy is recording for now:
 
 - Browsing actions: 'Browse', 'Senders' and 'Implementors'.
 
@@ -148,7 +122,7 @@ To cite the use of this tool, please use: https://hal.science/hal-04858378v1
 
 - Mouse events: 'Mouse enter' and 'Mouse leave'. When the mouse is entering or leaving a window.
 
-## Recorded events
+We can classify them in a table:
 
 | **Type of traces**         | **User activity/block event or action** | **Debugging action** | **Navigation/inspection action** | **Debugging event** | **Code edition action** |
 |-----------------------------|------------------------------------------|-----------------------|-----------------------------------|---------------------|--------------------------|
@@ -184,7 +158,3 @@ To cite the use of this tool, please use: https://hal.science/hal-04858378v1
 | Step into                  |                                          | x                     |                                   |                     |                          |
 | Step over                  |                                          | x                     |                                   |                     |                          |
 | Step through               |                                          | x                     |                                   |                     |                          |
-
-
-### Build visualizations
-TODO
