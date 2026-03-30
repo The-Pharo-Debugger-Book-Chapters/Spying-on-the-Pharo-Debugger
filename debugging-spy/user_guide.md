@@ -82,17 +82,26 @@ Upon inspection, the history looks like this:
 
 ![History inspection](./graphics/history_inspection.png)
 
-The history object exposes data organized in different perspectives:
+The history object exposes data organized in different perspectives :
 
-- **records** → list of raw records.  
+- `records`
 
-- **windows** → list of open windows. 
+List of raw records ordered by datetime.  
 
-Each window contains its own list of events, a list of events grouped by active periods (i.e. each period marks an interruption in the window's activity) and a toolInfo object (describing the tool associated to the window).
+- `windows` and `filteredWindows`
 
-- **windowJumps** → the sequential list of activity per window. 
+List of windows opened. Each window contains: 
+ - its own list of events
+ - a list of active periods (periods of activity in the window with associated events) 
+ - a toolInfo object (describing the tool associated to the window)
 
-This allows us to track activity within each window until a switch occurs, showing which window the user jumps to, what they do there, and when they return. Each window jump includes a start event (*startEvent*), an end event (*stopEvent*), a collection of events (*events*) recorded from entry to exit of the window, and the window linked to the activity (*window*, see the previous point). Each window jump corresponds to an activity period from the previous point.  
+The filtered version do not keep unknown windows.
+
+- `windowJumps` and `filteredWindowJumps`
+
+The sequential list of activity per window. This allows us to track activity within each window until a switch occurs, showing which window the user jumps to, what they do there, and when they return. Each window jump includes a start event (*startEvent*), an end event (*stopEvent*), a collection of events (*events*) recorded from entry to exit of the window, and the window linked to the activity (*window*, see the previous point). Each window jump corresponds to an activity period from the previous point.  
+
+The filtered version do not keep activities with : a duration of less than 0.5 seconds, less than 3 records or an unknown window.
 
 Some windows may have unusual names, such as:  
 
@@ -103,6 +112,15 @@ Some windows may have unusual names, such as:
 - Windows that correspond to the opening of a debugger, and only those, have a *source event* indicating which event triggered the window's opening. This applies only at the *window* level, not at the *jump* level. A jump is triggered by a mouse movement from one window to another. To determine the event that triggered the opening of the window being jumped to, one must use *"window sourceEvent"* from the jump.
 
 - The activity records, also referred to as *jumps* or *basic blocks* depending on the context, now respond to *windowId*. This information indicates that the activity was performed in a window of the same id. This is a lazy accessor.
+
+`DSRecordHistory` also provides an API to sort your records: 
+
+- `#absoluteTimeTaken`, returns the absolute time taken to perform the recording of user events, including unmonitoring activities (interruptions or activities outside the IDE).
+- `#countDebugActions`, returns how much debug actions have been done by the user (add or remove debugPoint, executing code, steps in debugger and methods created, modified or removed).
+- `#timeTaken`, returns the time taken to perform the recording of user events. It is calculated as:
+	- last log minus the first log timestamp minus time gaps (or discrepancies)
+	- time gaps are calculated as the sum of time differences between two following events with a time delta > 5 min.
+	We consider that, if the user did not do anything (basically typing or moving the mouse) for more than 5 min, the she was away from the task.
 
 ### List of recorded events
 

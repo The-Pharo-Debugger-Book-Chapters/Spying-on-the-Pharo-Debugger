@@ -88,15 +88,6 @@ These are specific MetaLinks for instrumentations done by Debugging Spy. It allo
 
 `DSMetaLink` and `DSMetaLinkInstaller` just inherits from `MetaLink` and `MetaLinkInstaller` respectively. The only difference is that `DSMetaLinkInstaller` reinstalls links when an instrumented method is modified (so the instrumentation is not deleted).
 
-#### Commands
-
-For Debugger commands instrumentation, Debugging Spy use its own command system. 
-It is very similar to recording classes, the difference is in the way of instrumenting (here by an extension in the Debugger).
-
-Likewise, we replace Sindarin's commands by commands from Debugging Spy which allow us to record every user's actions with Sindarin.
-
-TODO: put pictures of code? Not good for clarity (too many methods called)
-
 #### Extensions
 
 Some instrumentations are done by adding extensions to existing code.
@@ -117,17 +108,17 @@ signal
 	super signal
 ```
 
-As you can see, we used `DSSpy class>>#recordingSession` in order to unsure that we are in a recording session before recording.
+As you can see, we used `DSSpy class>>#recordingSession` in order to ensure that we are in a recording session before recording.
 
 This way of recording actions avoids issues due to MetaLink or Announcements and seems to be the best way of recording when it is possible to use it.
 
 ### Recording
 
 Many recording classes exist in Debugging Spy. Indeed, wanted data are different from an action to another.
-So each recording class implement what data do we want to record and how they should be recorded.
+So each recording class implement which data do we want to record and how it should be recorded.
 
 All records inherit from `DSAbstractEventRecord` and are then classify by abstract classes. 
-For example, we have `DSClipboardCopyRecord` (recording the action of copying) which inherits from `DSClipboardActionRecord` (the recording category) and then this super class inherits from `DSAbstractEventRecord`.
+For example, we have `DSClipboardCopyRecord` (recording the action of copying) which inherits from `DSClipboardActionRecord` (the recording category) and then this class inherits from `DSAbstractEventRecord`.
 
 Here is an example of the hierarchy view in the browser : TODO add screenshots or schema
 
@@ -144,20 +135,11 @@ This object stores records during a recording session.
 
 #### `DSSTONFileLogger` 
 
-It logs records as STON file. 
+This object logs records as STON file. 
 
 #### `DSRecordHistory`
 
-It builds an history object more readable from a STON file. It shorts records and infers information from them.
-
-`DSRecordHistory` provides an API to sort your records: (maybe to move in the user guide)
-
-- `#absoluteTimeTaken`, returns the absolute time taken to perform the recording of user events, including unmonitoring activities (interruptions or activities outside the IDE).
-- `#countDebugActions`, returns how much debug actions have been done by the user (add or remove debugPoint, executing code, steps in debugger and methods created, modified or removed).
-- `#timeTaken`, returns the time taken to perform the recording of user events. It is calculated as:
-	- last log minus the first log timestamp minus time gaps (or discrepancies)
-	- time gaps are calculated as the sum of time differences between two following events with a time delta > 5 min.
-	We consider that, if the user did not do anything (basically typing or moving the mouse) for more than 5 min, the she was away from the task.
+The history object sorts records and infers information from them, it creates new objects which are mostly used for visualizations.
 
 ## Record data filtering
 
