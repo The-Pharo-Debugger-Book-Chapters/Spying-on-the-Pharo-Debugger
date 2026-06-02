@@ -9,11 +9,11 @@ You can import Debugging Spy in a Pharo image by running this code in a Playgrou
 ```Smalltalk
 Metacello new
     baseline: 'DebuggingSpy';
-    repository: 'github://Pharo-XP-Tools/DebuggingSpy:P12';
+    repository: 'github://Pharo-XP-Tools/DebuggingSpy:P14';
     load.
 ```
 
-Caution: the example above loads the P12 version and you should adapt the code according to the version desired. 
+Caution: the example above loads the P14 version and you should adapt the code according to the version desired. 
 
 ## User interface
 
@@ -33,7 +33,7 @@ The following actions can be done by using the interface:
 
 The instrumentation can be started and stopped by clicking on the associated buttons in the browser's toolbar.
 
-When the instrumentation is started, a timer window is instantiated in the bottom-right corner of the screen. This timer window displays the elapsed time since the start of the experiment, the current time and provides a button to stop the instrumentation.
+When the instrumentation is started, a timer window is instantiated in the bottom-right corner of the screen. This timer window displays the last event in the experiment, the elapsed time since the start of the experiment, the current time and provides a button to stop the instrumentation.
 
 ![Timer window](./graphics/timer_window.png)
 
@@ -47,7 +47,9 @@ The selected files will be added in the list and displayed on the right part of 
 
 ![Displayed records in user interface](./graphics/displaying_records.png)
 
-As seeing on the previous screenshot, the records displayed in the user interface's table are colored. Color indicates the window where the event happened. Every association color / type of window could be seen in the `DSRecordBrowserPresenter >> #getWindowColorFrom` method.
+As seeing on the previous screenshot, the elements displayed in the user interface's table are colored. Color indicates the window where the element happened. Any element in the top right table could be selected to show in the next table the events it contains.
+In the *Activity* tab, each element is a Window Jump (a list of events that happened in the same window before switching to another).
+In the *Windows* tab, each element is a Window, the events displayed in the records table would be the list of all the events that happened in the selected window.
 
 
 ### Visualizing a file's records and history
@@ -72,7 +74,7 @@ To make a record anonymous, use the **anonymize** method:
 aRecord anonymize
 ``` 
 
-This method will return a **deepCopy** of the specified record that will be filtered based on a filter that is defined in the record's class in the **anonymousFilter** method. This filter defines the slots that are going to be kept in the copy, every slot that is not defined in that filter will be set at nil.
+This method will return a copy of the specified record that will be filtered based on a filter that is defined in the record's class in the **anonymousFilter** method. This filter defines the slots that are going to be kept in the copy, every slot that is not defined in that filter will be set at nil.
 
 ## Advanced features
 
